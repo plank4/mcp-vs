@@ -9,15 +9,60 @@
 
 int main(void)
 {
-  DDRA = 0xFF;//put PORTA into output mode
-  PORTA = 0; 
+  //variable declarations
+  //timer setup
+  //WMG12 - WMG13 Top Value ICR1 - ICIE1 - Prescaler CS10
+  cli();
+  TCCR1A = 0;
+  TCCR1B |= (1<<WGM12)|(1<<WGM13)|(1<<CS10);    //
+  TCNT1 = 0;
+  ICR1 = 1000;      //edit to change frequency
+
+  TIMSK1 = (1<<ICIE1);
+  sei();
+
+  
   while(1)//main loop
   {
-    _delay_ms(500);     //500 millisecond delay
-    PORTA |= (1<<PA3);  // note here PA3 is just an alias for the number 3
-                        // this line is equivalent to PORTA = PORTA | 0b00001000   which writes a HIGH to pin 3 of PORTA
-    _delay_ms(500); 
-    PORTA &= ~(1<<PA3); // this line is equivalent to PORTA = PORTA & (0b11110111)  which writes a HIGH to pin 3 of PORTA
+   
   }
   return(1);
 }//end main 
+
+ISR(TMER1_CAPT_vect)
+{
+
+}
+
+ISR(INT0_vect){//BUTTON INTERRUPT
+uint32_t time0 = milliseconds_now(); //EXPERIMENTAL BETTER TRIGGER METHOD
+static uint32_t prevTime0 = 0;
+if(time0 > (prevTime0 + DEBOUNCE_PERIOD)){
+  PORTA ^= (1<<PA0); //TOGGLE LED
+  prevTime0 = time0;
+}
+//_delay_ms(20); //REPLACE WITH THIS IN FAILURE
+//PORTA ^= (1<<PA0);
+}
+
+ISR(INT1_vect){//BUTTON INTERRUPT
+uint32_t time1 = milliseconds_now(); //EXPERIMENTAL BETTER TRIGGER METHOD
+static uint32_t prevTime1 = 0;
+if(time1 > (prevTime1 + DEBOUNCE_PERIOD)){
+  PORTA ^= (1<<PA1); //TOGGLE LED
+  prevTime1 = time1;
+}
+//_delay_ms(20); //REPLACE WITH THIS IN FAILURE
+//PORTA ^= (1<<PA1);
+}
+
+ISR(INT2_vect){//BUTTON INTERRUPT
+uint32_t time2 = milliseconds_now(); //EXPERIMENTAL BETTER TRIGGER METHOD
+static uint32_t prevTime2 = 0;
+if(time2 > (prevTime2 + DEBOUNCE_PERIOD)){
+  PORTA ^= (1<<PA2); //TOGGLE LED
+  prevTime2 = time2;
+}
+//_delay_ms(20); //REPLACE WITH THIS IN FAILURE
+//PORTA ^= (1<<PA2);
+}
