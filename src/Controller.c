@@ -13,12 +13,12 @@ int main(void)
   //timer setup
   //WMG12 - WMG13 Top Value ICR1 - ICIE1 - Prescaler CS10
   cli();
-  TCCR1A = 0;
-  TCCR1B |= (1<<WGM12)|(1<<WGM13)|(1<<CS10);    //
+  TCCR1A = 0;                                   //disable hardware output
+  TCCR1B |= (1<<WGM12)|(1<<WGM13)|(1<<CS10);    //enables CTC mode, sets prescaler to 1
   TCNT1 = 0;
   ICR1 = 1000;      //edit to change frequency
 
-  TIMSK1 = (1<<ICIE1);
+  TIMSK1 = (1<<ICIE1);        //
   sei();
 
   
@@ -26,7 +26,7 @@ int main(void)
   {
    
   }
-  return(1);
+  return(1);        //test
 }//end main 
 
 ISR(TMER1_CAPT_vect)
