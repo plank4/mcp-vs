@@ -8,13 +8,13 @@
 //static function prototypes, functions only called in this file
 volatile uint8_t button_pos =1;
 
-#include <cstdint>
+//#include <cstdint>
 int main(void)
 {
 	//variable declarations
 	char lcd_string[33] = {0}; //declare and initialise string for LCD
 	cli(); //pause interrupts
-	DDRD &= ¬(1<<DD0);//INT0 input mode
+	DDRD &= (1<<DD0);//INT0 input mode
 	DDRC = 0xFF; //portC in output mode
 	DDRA = 0x00; //set port A to input mode
 	DDRB = 0xFF; //set portB to output
