@@ -32,7 +32,7 @@ int main(void)
 		lcd_puts(lcd_string); //Print string to LCD first line
 		lcd_goto( 0x40 );     //Put cursor to first character on second line
 		if(button_pos == 1){
-			variableToPrint = adc_read(3);
+			variableToPrint =(adc_read(3));
 			
 		}
 		
